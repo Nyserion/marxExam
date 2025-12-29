@@ -116,7 +116,6 @@
   <script id="quiz-data" type="application/json">{
   "meta": {
     "title": "马克思主义基本原理｜本地刷题",
-    "generatedAt": "2025-12-29T09:59:29",
     "counts": {
       "total": 174,
       "single": 80,
@@ -5295,6 +5294,12 @@
 const DATA = JSON.parse(document.getElementById('quiz-data').textContent);
 const Q = DATA.questions;
 
+const today = new Date().toLocaleDateString("zh-CN", {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit"
+});
+
 const LS_KEY = "marx_quiz_v2";
 const loadState = () => { try { return JSON.parse(localStorage.getItem(LS_KEY) || "null"); } catch(e){ return null; } };
 const saveState = (s) => localStorage.setItem(LS_KEY, JSON.stringify(s));
@@ -5366,7 +5371,7 @@ function buildSide(state) {
     <div class="sep"></div>
     <div class="muted" style="font-size:12px;line-height:1.6">
       题库：${DATA.meta.counts.total} 题（单选 ${DATA.meta.counts.single} / 多选 ${DATA.meta.counts.multi} / 判断 ${DATA.meta.counts.tf} / 简答 ${DATA.meta.counts.short}）<br/>
-      生成时间：${DATA.meta.generatedAt}
+      当前日期：${today}
     </div>
   `;
 
@@ -5419,6 +5424,7 @@ function buildHome(state) {
       <summary>简答题关键词计分说明</summary>
       <div class="muted" style="margin-top:8px;font-size:12px;line-height:1.7">
         简答题只按关键词命中计分：每命中 1 个关键词算 1 分。<br/>
+        关键词默认来自题库配置（可在 quiz_data.json 中编辑）。
       </div>
     </details>
   `;
